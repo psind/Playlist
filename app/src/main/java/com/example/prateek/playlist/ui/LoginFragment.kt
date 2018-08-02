@@ -38,14 +38,14 @@ class LoginFragment : MainFragment(), GoogleApiClient.OnConnectionFailedListener
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build()
+        if (mainActivity != null) {
+            mGoogleApiClient = GoogleApiClient.Builder(mainActivity!!)
+                    .enableAutoManage(mainActivity!!, this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build()
 
-        mGoogleApiClient = GoogleApiClient.Builder(getMainActivity())
-                .enableAutoManage(getMainActivity(), this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build()
-
-        mGoogleSignInClient = GoogleSignIn.getClient(getMainActivity(), gso)
-
+            mGoogleSignInClient = GoogleSignIn.getClient(mainActivity!!, gso)
+        }
 
         loginTV?.setOnClickListener {
             signIn()
@@ -70,12 +70,12 @@ class LoginFragment : MainFragment(), GoogleApiClient.OnConnectionFailedListener
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
-            Toast.makeText(getMainActivity(), "yes", Toast.LENGTH_LONG).show()
+            Toast.makeText(mainActivity, "yes", Toast.LENGTH_LONG).show()
             // Signed in successfully, show authenticated UI.
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Toast.makeText(getMainActivity(), "no", Toast.LENGTH_LONG).show()
+            Toast.makeText(mainActivity, "no", Toast.LENGTH_LONG).show()
             Log.d("failed code=", e.statusCode.toString())
         }
 

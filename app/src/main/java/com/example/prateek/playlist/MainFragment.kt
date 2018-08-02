@@ -8,5 +8,5 @@ import android.support.v4.app.Fragment
 
 open class MainFragment : Fragment() {
 
-    fun getMainActivity(): MainActivity = activity as MainActivity
+    val mainActivity: MainActivity? get() = activity as MainActivity
 }

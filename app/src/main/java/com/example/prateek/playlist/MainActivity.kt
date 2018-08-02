@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        switchFragment(SplashFragment(), false, null, false)
+        switchFragment(SplashFragment(), false, null, false, false)
     }
 
     /**
@@ -28,12 +28,11 @@ class MainActivity : AppCompatActivity() {
      * @param tag                    addToBackStack tag name
      * @param transitionType         1 = Bottom to Top, 2 = Left to Right, 3 = Right to Left
      */
-    fun switchFragment(fragment: Fragment, addToBackStack: Boolean, bundle: Bundle?, addFragment: Boolean) {
+    fun switchFragment(fragment: Fragment, addToBackStack: Boolean, bundle: Bundle?, addFragment: Boolean, showAnimation: Boolean) {
         val backStateName = fragment.javaClass.name
 
         var fragmentPopped = false
         try {
-
             fragmentPopped = supportFragmentManager.popBackStackImmediate(backStateName, 0)
         } catch (ignored: IllegalStateException) {
             // There's no way to avoid getting this if saveInstanceState has already been called.
@@ -44,20 +43,21 @@ class MainActivity : AppCompatActivity() {
             // create checked fragment
             val fragmentTransaction = supportFragmentManager.beginTransaction()
 
-            if (bundle != null) {
+            if (bundle != null)
                 fragment.arguments = bundle
-            }
 
-            if (addToBackStack) {
+
+            if (addToBackStack)
                 fragmentTransaction.addToBackStack(backStateName)
-            }
-            fragmentTransaction.setCustomAnimations(R.anim.slide_out_right, R.anim.slide_in_left)
 
-            if (addFragment) {
+            if (showAnimation)
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+
+            if (addFragment)
                 fragmentTransaction.add(R.id.frame_container, fragment).commitAllowingStateLoss()
-            } else {
+            else
                 fragmentTransaction.replace(R.id.frame_container, fragment).commitAllowingStateLoss()
-            }
+
         }
     }
 }

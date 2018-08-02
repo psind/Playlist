@@ -21,14 +21,14 @@ class SplashFragment : MainFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val account :GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(getMainActivity())
+        val account :GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(mainActivity)
         Handler().postDelayed({
             if (account == null)
-                getMainActivity().switchFragment(LoginFragment(), false, null, false)
+                mainActivity?.switchFragment(YoutubeFragment(), false, null, false,true)
             else{
                 val bundle = Bundle()
                 bundle.putParcelable("data",account)
-                getMainActivity().switchFragment(YoutubeFragment(), false, bundle, false)
+                mainActivity?.switchFragment(YoutubeFragment(), false, bundle, false,true)
             }
         }, 1500)
     }

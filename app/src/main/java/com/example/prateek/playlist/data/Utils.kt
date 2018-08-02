@@ -27,6 +27,7 @@ open class Utils {
 
         //Constants
         val SIGN_IN = 7
+        val KEY="AIzaSyAB9A5KiXt-k-y6i1T5VGzO7QMLdC1adu4"
 
         fun showSnackBar(context: Context?, snackBarListener: SnackBarListener?, message: String, coordinatorLayout: View,
                          showAction: Boolean) {
